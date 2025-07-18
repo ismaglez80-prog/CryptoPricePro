@@ -1,14 +1,10 @@
 const express = require('express');
-const cryptoRoutes = require('./routes/crypto');
 const app = express();
-const PORT = process.env.PORT || 3000;
 
+const cryptoRoutes = require('./routes/crypto');
 app.use('/api', cryptoRoutes);
 
-app.get('/', (req, res) => {
-  res.send('CryptoPricePro API está funcionando 🚀');
-});
-
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
