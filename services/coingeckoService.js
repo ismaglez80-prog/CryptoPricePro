@@ -4,7 +4,7 @@ const getPrice = async (req, res) => {
   const { symbol } = req.params;
   try {
     const response = await axios.get(
-      \`https://api.coingecko.com/api/v3/simple/price?ids=\${symbol}&vs_currencies=usd\`
+      `https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=usd`
     );
     res.json(response.data);
   } catch (err) {
