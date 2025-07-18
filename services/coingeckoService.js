@@ -1,39 +1,16 @@
 const axios = require('axios');
 
-const getPrice = async (req, res) => {
-  const { symbol } = req.params;
+async function getCryptoPrice(symbol, fiat = 'usd') {
   try {
-    const response = await axios.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=usd`
-    );
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener precio' });
-  }
-};
+    // URL correcta usando backticks para variables
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=${fiat}`;
 
-const convertPrice = async (req, res) => {
-  const { symbol, fiat } = req.params;
-  try {
-    const response = await axios.get(
-      \`https://api.coingecko.com/api/v3/simple/price?ids=\${symbol}&vs_currencies=\${fiat}\`
-    );
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: 'Error al convertir moneda' });
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching crypto price:', error);
+    throw error;
   }
-};
+}
 
-const getTopCryptos = async (req, res) => {
-  const { limit } = req.params;
-  try {
-    const response = await axios.get(
-      \`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=\${limit}&page=1\`
-    );
-    res.json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: 'Error al obtener el top de criptos' });
-  }
-};
-
-module.exports = { getPrice, convertPrice, getTopCryptos };
+module.exports = { getCryptoPrice };
